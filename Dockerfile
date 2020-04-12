@@ -1,33 +1,31 @@
 ARG VERSION=latest
-LABEL maintainer="info@munterfinger.ch"
 FROM archlinux:$VERSION
+LABEL maintainer="info@munterfinger.ch"
+ARG VERSION
+ENV ARCHGIS_VERSION=$VERSION
 
-# Update pkgs
-RUN pacman -Syu --noconfirm && \
-  pacman -S --noconfirm base-devel git
+# Copy
+ADD /src/add_aur.sh /usr/sbin/add-aur
+ADD /src/archgis_info.sh /usr/bin/archgis-info
 
-# Nobody user
-RUN mkdir /home/build && \
-  chgrp nobody /home/build && \
-  chmod g+ws /home/build && \
-  setfacl -m u::rwx,g::rwx /home/build && \
-  setfacl -d --set u::rwx,g::rwx,o::- /home/build
+# Update and add devel pkgs
+RUN pacman -Syu --noprogressbar --noconfirm && \
+  pacman -S --needed --noprogressbar --noconfirm base-devel figlet
 
-# Install yay
-RUN git clone --quiet https://aur.archlinux.org/yay.git && \
-  cd yay && \
-  sudo -u nobody makepkg -si --noconfirm && \
-  cd - && \
-  rm -rf yay
+# Setup aur access for a new user "aurpkg"
+RUN add-aur aurpkg
 
 # Spatial libraries
-RUN pacman -S --noconfirm gdal geos proj
+RUN su aurpkg -c 'yay -S --noprogressbar --needed --noconfirm udunits' && \
+  pacman -S --needed --noprogressbar --noconfirm gdal geos proj
 
 # Python3 and spatial packages
-RUN pacman -S --noconfirm python python-pip && \
+RUN pacman -S --needed --noprogressbar --noconfirm python python-pip && \
   pip install numpy shapely pygeos libpysal geopandas rasterio
 
-# Base R and TK for installing packages (mirror window)
-RUN pacman -S --noconfirm tk texlive-bin gcc-fortran openblas r && \
+# R and spatial packages
+RUN pacman -S --needed --noprogressbar --noconfirm tk texlive-bin gcc-fortran openblas r && \
   Rscript -e 'install.packages(c("magrittr", "data.table", "dplyr"),repo = "http://cran.rstudio.com/")' && \
   Rscript -e 'install.packages(c("sf", "stars", "hereR"),repo = "http://cran.rstudio.com/")'
+
+CMD /usr/bin/archgis-info ; /usr/bin/bash
