@@ -10,7 +10,7 @@ ADD /src/archgis_info.sh /usr/bin/archgis-info
 
 # Update and add devel pkgs
 RUN pacman -Syu --noprogressbar --noconfirm && \
-  pacman -S --needed --noprogressbar --noconfirm base-devel figlet
+  pacman -S --needed --noprogressbar --noconfirm base-devel figlet ntfs-3g
 
 # Setup aur access for a new user "aurpkg"
 RUN add-aur aurpkg
