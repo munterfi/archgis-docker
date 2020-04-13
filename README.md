@@ -7,22 +7,26 @@ Extension for Arch Linux that enables processing, analyzing and storing spatial 
 
 ## Usage
 
-Pull built image from Docker Hub and run a instance:
+Pull built image from Docker Hub and run a container:
 ```bash
 docker run munterfi/archgis:latest
->    _             _      ____ ___ ____    ____             _             
->   / \   _ __ ___| |__  / ___|_ _/ ___|  |  _ \  ___   ___| | _____ _ __
->  / _ \ | '__/ __| '_ \| |  _ | |\___ \  | | | |/ _ \ / __| |/ / _ \ '__|
-> / ___ \| | | (__| | | | |_| || | ___) | | |_| | (_) | (__|   <  __/ |   
->/_/   \_\_|  \___|_| |_|\____|___|____/  |____/ \___/ \___|_|\_\___|_|   
->                                                                         
->Image:      archgis:latest FROM archlinux:latest
->GDAL:       3.0.4-5
->GEOS:       3.8.0-1
->PROJ:       6.3.1-1
->Maintainer: Merlin Unterfinger <info@munterfinger.ch>
->License:    GNU General Public License 3.0
->
+```
+
+... which prints:
+```txt
+    _             _      ____ ___ ____    ____             _             
+   / \   _ __ ___| |__  / ___|_ _/ ___|  |  _ \  ___   ___| | _____ _ __
+  / _ \ | '__/ __| '_ \| |  _ | |\___ \  | | | |/ _ \ / __| |/ / _ \ '__|
+ / ___ \| | | (__| | | | |_| || | ___) | | |_| | (_) | (__|   <  __/ |   
+/_/   \_\_|  \___|_| |_|\____|___|____/  |____/ \___/ \___|_|\_\___|_|   
+
+Image:      archgis:latest FROM archlinux:latest
+GDAL:       3.0.4-5
+GEOS:       3.8.0-1
+PROJ:       6.3.1-1
+Maintainer: Merlin Unterfinger <info@munterfinger.ch>
+License:    GNU General Public License 3.0
+
 ```
 
 Build the image locally:
