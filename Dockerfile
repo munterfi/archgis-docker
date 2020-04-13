@@ -31,8 +31,8 @@ RUN \
 RUN \
   cd /usr/local/src && \
   tar -xzf udunits-2.2.26.tar.gz && \
-  cd /udunits-2.2.26 && \
-  ./configure && \
+  cd udunits-2.2.26 && \
+  sh configure && \
   make && \
   make install && \
   # Symlink
