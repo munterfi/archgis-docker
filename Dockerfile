@@ -4,27 +4,49 @@ LABEL maintainer="info@munterfinger.ch"
 ARG VERSION
 ENV ARCHGIS_VERSION=$VERSION
 
-# Copy
-ADD /src/add_aur.sh /usr/sbin/add-aur
-ADD /src/archgis_info.sh /usr/bin/archgis-info
+# Files: Copy and pull
+COPY /src/archgis_info.sh /usr/bin/archgis-info
+ADD https://www.unidata.ucar.edu/downloads/udunits/udunits-2.2.26.tar.gz /usr/local/src
 
-# Update and add devel pkgs
-RUN pacman -Syu --noprogressbar --noconfirm && \
-  pacman -S --needed --noprogressbar --noconfirm base-devel figlet
+# pacman: Update and add libs
+RUN \
+  pacman -Syu --noprogressbar --noconfirm && \
+  pacman -S --needed --noprogressbar --noconfirm \
+    base-devel \
+    gdal geos proj \
+    expat \
+    python python-pip \
+    gcc-fortran r \
+    expat
 
-# Setup aur access for a new user "docker"
-RUN add-aur docker
-
-# Spatial libraries
-RUN su docker -c 'yay -S --noprogressbar --needed --noconfirm udunits' && \
-  pacman -S --needed --noprogressbar --noconfirm gdal geos proj
-
-# Python3 and spatial packages
-RUN pacman -S --needed --noprogressbar --noconfirm python python-pip && \
+# Python: Update and add pks
+RUN \
+  pip list --outdated --format=freeze | \
+    grep -v '^\-e' | \
+    cut -d = -f 1  | \
+    xargs -n1 pip install -U && \
   pip install numpy shapely pygeos libpysal geopandas rasterio
 
-# R and spatial packages
-RUN pacman -S --needed --noprogressbar --noconfirm tk texlive-bin gcc-fortran openblas r && \
+# UDUNITS 2: Install from source and link to /lib
+RUN \
+  cd /usr/local/src && \
+  tar -xzf udunits-2.2.26.tar.gz && \
+  cd ./udunits-2.2.26/ && \
+  ./configure && \
+  make && \
+  make install && \
+  # Symlink
+  ln -s /usr/local/lib/libudunits2.so "/lib/libudunits2.so" && \
+  ln -s /usr/local/lib/libudunits2.so.0 "/lib/libudunits2.so.0" && \
+  ln -s /usr/local/lib/libudunits2.so.0.1.0 "/lib/libudunits2.so.0.1.0" && \
+  ldconfig -v && \
+  cd && \
+  rm -rf /usr/local/src/udunits-2.2.26 && \
+  rm -rf /usr/local/src/udunits-2.2.26.tar.gz
+
+# R: Update and add pks
+RUN \
+  Rscript -e 'install.packages("units", INSTALL_opts = "--no-lock" , repo = "http://cran.rstudio.com/")' && \
   Rscript -e 'install.packages(c("magrittr", "data.table", "dplyr"),repo = "http://cran.rstudio.com/")' && \
   Rscript -e 'install.packages(c("sf", "stars", "hereR"),repo = "http://cran.rstudio.com/")'
 

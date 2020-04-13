@@ -1,1 +1,1 @@
-docker build -t archgis --no-cache .
+docker build -t archgis .
