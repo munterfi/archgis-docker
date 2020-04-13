@@ -1,17 +1,15 @@
+[![](https://images.microbadger.com/badges/image/munterfi/archgis.svg)](https://microbadger.com/images/munterfi/archgis)
+[![](https://images.microbadger.com/badges/version/munterfi/archgis.svg)](https://microbadger.com/images/munterfi/archgis)
+
 # Docker Image of ArchGIS
 
 Extension for Arch Linux that enables processing, analyzing and storing spatial data (Libs: Udunits2, GDAL, GEOS and PROJ; Tools: Python and R).
 
 ## Usage
-Build the image locally:
-```bash
-git clone https://github.com/munterfinger/archgis-docker.git
-./build.sh
-```
 
-Run the image interactively:
+Pull built image from Docker Hub and run a instance:
 ```bash
-./run.sh
+docker run munterfi/archgis:latest
 >    _             _      ____ ___ ____    ____             _             
 >   / \   _ __ ___| |__  / ___|_ _/ ___|  |  _ \  ___   ___| | _____ _ __
 >  / _ \ | '__/ __| '_ \| |  _ | |\___ \  | | | |/ _ \ / __| |/ / _ \ '__|
@@ -25,7 +23,17 @@ Run the image interactively:
 >Maintainer: Merlin Unterfinger <info@munterfinger.ch>
 >License:    GNU General Public License 3.0
 >
-[root@7d51b08c36d7 /]#
+```
+
+Build the image locally:
+```bash
+git clone https://github.com/munterfinger/archgis-docker.git
+./build.sh
+```
+
+Run the local image interactively:
+```bash
+./run.sh
 ```
 
 ## References
