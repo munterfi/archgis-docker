@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Modified from: https://github.com/munterfinger/archgis/blob/master/src/archgis_info.sh
+# Modified from: https://github.com/munterfi/archgis/blob/master/src/archgis_info.sh
 
 # Replaced figlet by text.
 echo "    _             _      ____ ___ ____    ____             _             "

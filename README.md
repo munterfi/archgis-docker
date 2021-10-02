@@ -8,11 +8,13 @@ Extension for Arch Linux that enables processing, analyzing and storing spatial 
 ## Usage
 
 Pull built image from Docker Hub and run a container:
+
 ```bash
 docker run munterfi/archgis:latest
 ```
 
 ... which prints:
+
 ```txt
     _             _      ____ ___ ____    ____             _             
    / \   _ __ ___| |__  / ___|_ _/ ___|  |  _ \  ___   ___| | _____ _ __
@@ -30,12 +32,14 @@ License:    GNU General Public License 3.0
 ```
 
 Build the image locally:
+
 ```bash
-git clone https://github.com/munterfinger/archgis-docker.git
+git clone https://github.com/munterfi/archgis-docker.git
 ./build.sh
 ```
 
 Run the local image interactively:
+
 ```bash
 ./run.sh
 ```
@@ -43,4 +47,4 @@ Run the local image interactively:
 ## References
 
 * [Docker Base Image for Arch Linux](https://github.com/archlinux/archlinux-docker)
-* [ArchGIS extension for Arch Linux](https://github.com/munterfinger/archgis)
+* [ArchGIS extension for Arch Linux](https://github.com/munterfi/archgis)
